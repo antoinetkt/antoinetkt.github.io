@@ -1,0 +1,104 @@
+
+/* afficher toujours le menu de navigation en haut de la page et tout les lien sur une ligne */
+
+nav>ul{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    background-color: rgb(95, 95, 95);
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    padding-top: 0%;
+    box-sizing: border-box;
+}
+
+nav>ul>li{
+    list-style: none;
+    font-size: 1.5em;
+    margin: 0 10px;
+    color: aliceblue;
+}
+h2{
+    text-decoration:underline;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 3em;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    text-shadow: 2px 2px 2px black;
+    
+}
+
+#presentation{
+    background-image: url("image/montagne.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat
+}
+
+#presentation p{
+    margin: 10%;
+    color: rgb(194, 176, 176);
+    text-align: justify;
+    font-size: 2em;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    text-shadow: 2px 2px 2px black;
+}
+
+#competences{
+    text-align: center;
+    font-size: 1.5em;
+    background-color: rgb(95, 95, 95);
+
+}
+
+
+#projet section {
+    display: flex;
+    flex-wrap: wrap;
+    /* marge avec le bord de l'écran + une marge entre chaque bloc */
+    margin: 0 5%;
+    /* marge entre chaque bloc */
+    justify-content: space-between;
+    /* marge entre chaque bloc */
+    justify-content: space-around;
+    /* marge entre chaque bloc */
+    justify-content: space-evenly;
+}
+
+
+
+
+#projet1{
+    background-color: red;
+    width: 40%;
+    float: left;
+}
+#projet2{
+    background-color: blue;
+    width: 40%;
+    float: left;
+}
+#projet3{
+    background-color: green;
+    width: 40%;
+    
+    float: left;
+}
+#projet4{
+    background-color: rgb(121, 33, 33);
+    width: 40%;
+    float: left;
+}
+    
+
+#formations{
+    background-color: rgb(95, 95, 95);
+    text-align: center;
+    font-size: 1.5em;
+    padding-bottom: 100px;
+}
