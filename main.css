@@ -1,109 +1,282 @@
 
-/* afficher toujours le menu de navigation en haut de la page et tout les lien sur une ligne */
 
-nav>ul{
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    width: 100%;
-    background-color: rgb(95, 95, 95);
-    display: flex;
-    align-items: center;
-    padding: 0 5%;
-    padding-top: 0%;
-    box-sizing: border-box;
+
+/* Set Gray Background for the Entire Site */
+body {
+    background-color: #c4bebe; /* Use your preferred shade of gray */
+    margin: 0; /* Remove default margin for body element */
 }
 
-nav>ul>li{
-    list-style: none;
-    font-size: 1.5em;
-    margin: 0 10px;
-    color: aliceblue;
-}
-h2{
-    text-decoration:underline;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-size: 3em;
-    padding-top: 100px;
-    padding-bottom: 50px;
-    text-shadow: 2px 2px 2px black;
-    
+
+/* Navigation Styles */
+nav {
+    background-color: #333; /* Background color of the navigation bar */
+    position: fixed; /* Fixed position to keep it at the top */
+    width: 100%; /* Take up the full width of the viewport */
+    top: 0; /* Stick to the top of the viewport */
 }
 
+/* Navigation List Styles */
+nav ul {
+    list-style: none; /* Remove default list styles */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox for horizontal alignment */
+}
+
+/* Navigation Links Styles */
+nav a {
+    font-size: 2.0em; /* Set font size to 2em */
+    color: white; /* Text color */
+    text-decoration: none; /* Remove underline from links */
+    padding: 15px 20px; /* Add padding to the links for better clickability */
+    display: inline-block; /* Display links as blocks for padding to work */
+    transition: font-size 0.3s; /* Smooth transition for font size change */
+}
+
+/* Hover Effect for Navigation Links */
+nav a:hover {
+    font-size: 2.5em; /* Increase font size on hover */
+}
+
+/* mettre une image en arrière plan dans #presentation */
 #presentation{
     background-image: url("image/montagne.png");
     background-size: cover;
     background-position: center;
-    background-repeat:repeat
+    background-repeat:repeat;
+    padding-top: 50px;
 }
 
 #presentation p{
-    margin: 10%;
-    color: rgb(194, 176, 176);
+    margin-left: 25%;
+    color: rgb(236, 231, 231);
     text-align: justify;
     font-size: 2em;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 50px;
+    padding-bottom: 80px;
     text-shadow: 2px 2px 2px black;
-}
-
-#competences{
-    text-align: center;
-    font-size: 1.5em;
-    background-color: rgb(95, 95, 95);
-
+    width: 50%;
 }
 
 
-#projet section {
+/* Center H2 Elements */
+h2 {
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    font-size: 3em; /* Increase font size */
+    margin-top: 50px; /* Add some top margin for spacing */
+}
+
+
+/* Compétences Section Styles */
+#competences {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    display: flex;
+    align-items: center;
+}
+
+/* H2 Styles */
+#competences h2 {
+    width: 40%; /* Adjust width as needed */
+    text-align: center; /* Center the text */
+}
+
+/* Image Grid Styles */
+.image-grid {
     display: flex;
     flex-wrap: wrap;
-    /* marge avec le bord de l'écran */
-    margin: 0 5%;
-    /* marge entre chaque bloc */
-    justify-content: space-between;
-    margin-top: 25px;
-   
+    justify-content: flex-end;
+    width: 70%; /* Adjust width as needed */
 }
 
-
-
-
-#projet1{
-    background-color: rgb(0, 0, 0);
-    width: 40%;
-    color: rgb(255, 255, 255);
-
-    float: left;
+/* Display two images per line */
+.image-container {
+    width: 47%; /* Adjust width as needed for two images per line */
+    margin: 10px; /* Add margin for spacing between images */
 }
-#projet2{
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
 
-    width: 40%;
-    float: left;
+#projet1,
+#projet2,
+#projet3 {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Adjust the width as needed */
+    margin-left: 10%; /* Adjust the margin as needed to create space between the items */
+    vertical-align: top; /* Align the items to the top */
 }
-#projet3{
-    background-color: rgb(0, 0, 0);
-    width: 40%;
-    color: rgb(255, 255, 255);
-    float: left;
-}
-#projet4{
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
 
-    width: 40%;
-    float: left;
+#projet{
+    padding-top: 50px;
+    padding-bottom: 80px;
+    justify-content: center;
 }
+#projet h2 {
+   text-align: center;
+}
+#projet h3 {
+    text-align: center;
+    font-size: 2em;
+    margin: 2%;
+}
+
+#projet p {
     
+    text-align: justify; /* Justify text */
+    font-size: 1.2em; /* Increase font size */
+    line-height: 1.5; /* Increase line height */
+    width: 90%;
+    margin: 5%;
+}
 
-#formations{
-    background-color: rgb(95, 95, 95);
+#projet1,
+#projet2,
+#projet3 {
+    /*bordure arrondi dans les angle*/
+    border-radius: 25px;
+    border: 1px solid black;
+    width: 400px;
+    height: 300px;
+}
+
+.p-click1,
+.p-click2,
+.p-click3 {
+    display: none;
+    opacity: 0;
+}
+
+
+/* Add your existing CSS styles here */
+
+#projet1:hover p,
+#projet2:hover p,
+#projet3:hover p {
+    display: none;
+    opacity: 0;
+}
+
+#projet1:hover .p-click1,
+#projet2:hover .p-click2,
+#projet3:hover .p-click3 {
+    display: block;
+    opacity: 1;
     text-align: center;
     font-size: 1.5em;
-    margin-top: 200px;
+    margin: 2%;
+}
+
+#projet1 {
+    background-image: url("image/projet-agile.png");
+    /* rendre l'image plus opac */
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat;
+    color: rgb(230, 228, 228);
+   
+}
+#projet1 p {
+    /* changer  la police  d'écriture en Arial*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*en gras */
+    font-weight: bold;
     
 }
+
+
+#projet2{
+    background-image: url("image/chasse-au-monstre.png");
+    /* rendre l'image plus opac */
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat;
+    color: rgb(185, 24, 24);
+    text-shadow: 5px 5px 5px rgb(75, 212, 48);
+}
+#projet2 p {
+    /* changer  la police  d'écriture en Arial*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*en gras */
+    font-weight: bold;
+    
+}
+
+
+#projet3 {
+    background-image: url("image/tchat.jpg");
+    /* rendre l'image plus opac */
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat;
+    color: rgb(0, 0, 0);
+    text-shadow: 5px 5px 5px rgb(255, 255, 255);
+}
+#projet h3 {
+    text-align: center;
+    font-size: 2em;
+    margin: 2%;
+    opacity: 1;
+}
+
+#projet3 p {
+    /* changer  la police  d'écriture en Arial*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*en gras */
+    font-weight: bold;
+    
+}
+
+#formations {
+    display: flex;
+    align-items: center;
+    margin: 15%;
+}
+
+
+/* H2 Styles */
+#formations h2 {
+    
+    width:40%; /* Adjust width as needed */
+    text-align: center; /* Center the text */
+}
+#formations p {
+    width: 100%; 
+    font-size: 2em;
+    margin: 2%;
+}
+
+#contact div {
+    
+    display: flex;
+    align-items: center;
+    
+}
+#contact p {
+    width: 100%;
+    text-align: center; /* Center the text */
+    font-size: 1.5em;
+    margin: 5%;
+    color: rgb(0, 0, 0); /* Text color */
+    text-decoration: none;
+}
+
+#contact a {
+    width: 100%;
+    text-align: center; /* Center the text */
+    font-size: 1.5em;
+    margin: 5%;
+    color: rgb(0, 0, 0); /* Text color */
+    text-decoration: none;
+}
+
+
+
+
+
+
+
