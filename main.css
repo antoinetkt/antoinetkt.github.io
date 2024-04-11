@@ -18,28 +18,24 @@ nav {
 
 /* Navigation List Styles */
 nav ul {
-    list-style: none; /* Remove default list styles */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-    display: flex; /* Use flexbox for horizontal alignment */
+    list-style: none; 
+    margin: 0; 
+    padding: 0;
+    display: flex;
 }
 
-/* Navigation Links Styles */
 nav a {
-    font-size: 2.0em; /* Set font size to 2em */
-    color: white; /* Text color */
-    text-decoration: none; /* Remove underline from links */
-    padding: 15px 20px; /* Add padding to the links for better clickability */
-    display: inline-block; /* Display links as blocks for padding to work */
-    transition: font-size 0.3s; /* Smooth transition for font size change */
+    font-size: 2.0em; 
+    color: white; 
+    text-decoration: none;
+    padding: 15px 20px; 
+    display: inline-block; 
+    transition: font-size 0.3s; 
 }
-
-/* Hover Effect for Navigation Links */
 nav a:hover {
-    font-size: 2.5em; /* Increase font size on hover */
+    font-size: 2.5em; 
 }
 
-/* mettre une image en arrière plan dans #presentation */
 #presentation{
     background-image: url("image/montagne.png");
     background-size: cover;
@@ -99,13 +95,14 @@ h2 {
 
 #projet1,
 #projet2,
-#projet3 {
+#projet3,
+#projet4 {
     display: inline-block;
     justify-content: center;
     align-items: center;
     width: 100%; /* Adjust the width as needed */
-    margin-left: 10%; /* Adjust the margin as needed to create space between the items */
-    vertical-align: top; /* Align the items to the top */
+    vertical-align: top; 
+    margin : 5%;
 }
 
 #projet{
@@ -133,17 +130,20 @@ h2 {
 
 #projet1,
 #projet2,
-#projet3 {
-    /*bordure arrondi dans les angle*/
+#projet3,
+#projet4,
+#projet5 {
     border-radius: 25px;
     border: 1px solid black;
-    width: 400px;
+    width: 420px;
     height: 300px;
 }
 
 .p-click1,
 .p-click2,
-.p-click3 {
+.p-click3,
+.p-click4,
+.p-click5 {
     display: none;
     opacity: 0;
 }
@@ -153,25 +153,30 @@ h2 {
 
 #projet1:hover p,
 #projet2:hover p,
-#projet3:hover p {
+#projet3:hover p,
+#projet4:hover p,
+#projet5:hover p
+{
     display: none;
     opacity: 0;
 }
 
 #projet1:hover .p-click1,
 #projet2:hover .p-click2,
-#projet3:hover .p-click3 {
+#projet3:hover .p-click3,
+#projet4:hover .p-click4,
+#projet5:hover .p-click5
+{
     display: block;
     opacity: 1;
     text-align: center;
     font-size: 1.5em;
-    margin: 2%;
+    margin: 3%;
 }
 
 #projet1 {
     background-image: url("image/projet-agile.png");
-    /* rendre l'image plus opac */
-    opacity: 1;
+   
     background-size: cover;
     background-position: center;
     background-repeat:repeat;
@@ -224,11 +229,28 @@ h2 {
 }
 
 #projet3 p {
-    /* changer  la police  d'écriture en Arial*/
     font-family: Arial, Helvetica, sans-serif;
     /*en gras */
     font-weight: bold;
     
+}
+
+#projet4 {
+    background-image: url("image/API.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat;
+    color: rgb(0, 0, 0);
+    text-shadow: 5px 5px 5px rgb(255, 255, 255);
+}
+
+#projet5 {
+    background-image: url("image/heaven.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat:repeat;
+    color: rgb(0, 0, 0);
+    text-shadow: 5px 5px 5px rgb(255, 255, 255);
 }
 
 #formations {
