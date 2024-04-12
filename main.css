@@ -84,23 +84,23 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    width: 70%; /* Adjust width as needed */
+    width: 70%;
 }
 
-/* Display two images per line */
 .image-container {
-    width: 47%; /* Adjust width as needed for two images per line */
-    margin: 10px; /* Add margin for spacing between images */
+    width: 47%;
+    margin: 10px; 
 }
 
 #projet1,
 #projet2,
 #projet3,
-#projet4 {
+#projet4,
+#projet5 {
     display: inline-block;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Adjust the width as needed */
+    width: 100%;
     vertical-align: top; 
     margin : 5%;
 }
@@ -121,9 +121,9 @@ h2 {
 
 #projet p {
     
-    text-align: justify; /* Justify text */
-    font-size: 1.2em; /* Increase font size */
-    line-height: 1.5; /* Increase line height */
+    text-align: justify; 
+    font-size: 1.2em; 
+    line-height: 1.5; 
     width: 90%;
     margin: 5%;
 }
@@ -184,9 +184,7 @@ h2 {
    
 }
 #projet1 p {
-    /* changer  la police  d'écriture en Arial*/
     font-family: Arial, Helvetica, sans-serif;
-    /*en gras */
     font-weight: bold;
     
 }
@@ -194,7 +192,6 @@ h2 {
 
 #projet2{
     background-image: url("image/chasse-au-monstre.png");
-    /* rendre l'image plus opac */
     opacity: 1;
     background-size: cover;
     background-position: center;
@@ -203,9 +200,7 @@ h2 {
     text-shadow: 5px 5px 5px rgb(75, 212, 48);
 }
 #projet2 p {
-    /* changer  la police  d'écriture en Arial*/
     font-family: Arial, Helvetica, sans-serif;
-    /*en gras */
     font-weight: bold;
     
 }
@@ -213,7 +208,6 @@ h2 {
 
 #projet3 {
     background-image: url("image/tchat.jpg");
-    /* rendre l'image plus opac */
     opacity: 1;
     background-size: cover;
     background-position: center;
@@ -230,7 +224,6 @@ h2 {
 
 #projet3 p {
     font-family: Arial, Helvetica, sans-serif;
-    /*en gras */
     font-weight: bold;
     
 }
