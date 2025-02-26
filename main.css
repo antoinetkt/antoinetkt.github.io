@@ -69,11 +69,23 @@ h2 {
     display: flex;
     align-items: center;
 }
+#savoir-etre{
+    padding-top: 50px;
+    padding-bottom: 80px;
+    display: flex;
+    align-items: center;
+}
 
 /* H2 Styles */
 #competences h2 {
     width: 40%; /* Adjust width as needed */
     text-align: center; /* Center the text */
+}
+
+#savoir-etre h2 {
+    width: 40%; /* Adjust width as needed */
+    text-align: left; /* Center the text */
+    margin-left: 10%;
 }
 
 /* Image Grid Styles */
