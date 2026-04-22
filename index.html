@@ -1,152 +1,1323 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Accueil PortFolio</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antoine Gaienier — Portfolio</title>
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void: #080808;
+      --slate: #1A1A1C;
+      --spark: #D1FF52;
+      --text: #F2F2F2;
+      --meta: #8E8E93;
+      --border: #333;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Typography helpers ─── */
+    .mono { font-family: 'Courier New', Courier, monospace; }
+    .label {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--spark);
+    }
+    .section-title {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, border-bottom 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--slate);
+    }
+    .nav-logo {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: var(--spark);
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .nav-links a, .nav-links button {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--meta);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links button:hover { color: var(--spark); }
+    .nav-cv {
+      border: 1px solid var(--spark) !important;
+      color: var(--spark) !important;
+      padding: 0.5rem 1.2rem;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cv:hover { background: var(--spark) !important; color: var(--void) !important; }
+
+    /* Mobile nav */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--text);
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px; left: 0; right: 0;
+      background: var(--slate);
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      flex-direction: column;
+      gap: 1.2rem;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a, .mobile-menu button {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--meta);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover, .mobile-menu button:hover { color: var(--spark); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ─── HERO ─── */
+    #presentation {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image:
+        linear-gradient(var(--text) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute;
+      top: 20%; right: 10%;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(209,255,82,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      transition: transform 0.3s ease-out;
+    }
+    .hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2.5rem;
+    }
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--spark);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .hero-name {
+      font-size: clamp(3.5rem, 14vw, 13rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      overflow: hidden;
+      margin-bottom: 0.2em;
+      transition: transform 0.2s ease-out;
+    }
+    .hero-name .accent { color: var(--spark); }
+    .hero-surname {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(2rem, 8vw, 7rem);
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--meta);
+      line-height: 1;
+      margin-bottom: 3rem;
+      transition: transform 0.2s ease-out;
+    }
+    .hero-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-desc {
+      max-width: 480px;
+      color: var(--meta);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .hero-meta span, .hero-meta a {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--meta);
+    }
+    .hero-meta .spark-link { color: var(--spark); }
+    .hero-meta a:hover { color: var(--spark); }
+    .scroll-indicator {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3.5rem;
+    }
+    .scroll-line { width: 64px; height: 1px; background: var(--spark); }
+    .hero-bottom-border {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(209,255,82,0.3), transparent);
+    }
+
+    @media (max-width: 768px) {
+      #presentation { padding: 5rem 1.5rem 3rem; }
+      .hero-meta { align-items: flex-start; }
+    }
+
+    /* ─── SECTIONS common ─── */
+    section { padding: 7rem 4rem; }
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+    .section-count {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 5rem 1.5rem; }
+    }
+
+    /* ─── SKILLS ─── */
+    #competences { border-top: 1px solid var(--slate); }
+    .skills-list { border-top: 1px solid var(--slate); }
+    .skill-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--slate);
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .skill-row:hover .skill-name { color: var(--spark); }
+    .skill-row:hover .skill-bar-fill { width: var(--level) !important; }
+    .skill-num {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      width: 28px;
+      flex-shrink: 0;
+    }
+    .skill-name {
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      flex: 1;
+      transition: color 0.2s;
+    }
+    .skill-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      border: 1px solid;
+      padding: 3px 8px;
+      flex-shrink: 0;
+    }
+    .tag-frontend { color: var(--spark); border-color: rgba(209,255,82,0.3); }
+    .tag-backend { color: #7EB8FF; border-color: rgba(126,184,255,0.3); }
+    .tag-framework { color: #FF9F52; border-color: rgba(255,159,82,0.3); }
+    .tag-systeme { color: #FF6B6B; border-color: rgba(255,107,107,0.3); }
+    .tag-db { color: #B07EFF; border-color: rgba(176,126,255,0.3); }
+    .skill-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 180px;
+      flex-shrink: 0;
+    }
+    .skill-bar-track {
+      flex: 1;
+      height: 1px;
+      background: var(--slate);
+      position: relative;
+    }
+    .skill-bar-fill {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      height: 2px;
+      background: var(--spark);
+      width: 20%;
+      transition: width 0.7s ease;
+    }
+    .skill-pct {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+    }
+
+    @media (max-width: 640px) {
+      .skill-bar-wrap { display: none; }
+      .skill-tag { display: none; }
+    }
+
+    /* ─── SOFT SKILLS ─── */
+    #savoir-etre {
+      background: var(--slate);
+      border-top: 1px solid var(--border);
+    }
+    .soft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 0;
+    }
+    .soft-card {
+      background: var(--slate);
+      padding: 2.5rem;
+      transition: background 0.3s;
+    }
+    .soft-card:hover { background: var(--void); }
+    .soft-icon {
+      font-size: 2.5rem;
+      color: var(--spark);
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .soft-card:hover .soft-icon { transform: scale(1.1); }
+    .soft-card h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.8rem;
+    }
+    .soft-card p { font-size: 13px; color: var(--meta); line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      .soft-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── PROJECTS ─── */
+    #projets { border-top: 1px solid var(--slate); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--slate);
+    }
+    .project-card {
+      background: var(--void);
+      padding: 2rem;
+      position: relative;
+      transition: background 0.3s;
+      overflow: hidden;
+    }
+    .project-card:hover { background: var(--slate); }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--spark);
+      transition: width 0.5s ease;
+    }
+    .project-card:hover::after { width: 100%; }
+    .project-num {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .project-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--text);
+      transition: color 0.2s;
+      margin-bottom: 4px;
+    }
+    .project-card:hover .project-title { color: var(--spark); }
+    .project-subtitle {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      margin-bottom: 1rem;
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--meta);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .tech-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      border: 1px solid var(--border);
+      color: var(--meta);
+      padding: 3px 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-card:hover .tech-badge {
+      border-color: rgba(209,255,82,0.3);
+      color: var(--spark);
+    }
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .project-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--spark);
+    }
+    .project-link {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--spark); }
+
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── FORMATIONS ─── */
+    #formations {
+      background: var(--slate);
+      border-top: 1px solid var(--border);
+    }
+    .formations-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    .sub-label {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .sub-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--spark);
+      flex-shrink: 0;
+    }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: flex; gap: 1.5rem; }
+    .timeline-dot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .timeline-dot {
+      width: 10px; height: 10px;
+      border: 1px solid var(--spark);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .timeline-item:hover .timeline-dot { background: var(--spark); }
+    .timeline-line {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 6px;
+    }
+    .timeline-content { padding-bottom: 2rem; }
+    .timeline-year {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .timeline-item:hover .timeline-title { color: var(--spark); }
+    .timeline-org {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+    }
+    /* Experience card */
+    .exp-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+    .exp-card:hover { border-color: rgba(209,255,82,0.4); }
+    .exp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .exp-date {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--spark);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .exp-role {
+      font-size: 1.3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .exp-card:hover .exp-role { color: var(--spark); }
+    .exp-company {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--meta);
+      margin-top: 4px;
+    }
+    .exp-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      border: 1px solid rgba(209,255,82,0.3);
+      color: var(--spark);
+      padding: 4px 10px;
+      flex-shrink: 0;
+    }
+    .exp-list { list-style: none; margin-top: 1rem; }
+    .exp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--meta);
+      margin-bottom: 8px;
+    }
+    .exp-list li::before {
+      content: '›';
+      color: var(--spark);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .exp-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .formations-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { border-top: 1px solid var(--slate); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--slate);
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    .contact-item:hover { border-color: rgba(209,255,82,0.4); }
+    .contact-item-label {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      color: var(--meta);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .contact-item-value {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .contact-item:hover .contact-item-value { color: var(--spark); }
+    .contact-arrow {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      transition: color 0.2s;
+    }
+    .contact-item:hover .contact-arrow { color: var(--spark); }
+    .cv-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid var(--spark);
+      color: var(--spark);
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 1.2rem 2rem;
+      font-weight: 700;
+      transition: background 0.2s, color 0.2s;
+      margin-top: 0.5rem;
+    }
+    .cv-btn:hover { background: var(--spark); color: var(--void); }
+    /* Clock */
+    .clock-card {
+      border: 1px solid var(--slate);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 180px;
+    }
+    .clock-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2rem;
+    }
+    .clock-time {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .clock-tz {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-top: 8px;
+    }
+    /* Footer */
+    .footer {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--slate);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer span {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--meta);
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── HUD ─── */
+    #hud {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    #hud-line {
+      width: 1px;
+      height: 64px;
+      background: var(--slate);
+      position: relative;
+      overflow: hidden;
+    }
+    #hud-fill {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      background: var(--spark);
+      transition: height 0.3s;
+      height: 0%;
+    }
+    #hud-pct {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      color: var(--meta);
+    }
+    #back-top {
+      display: none;
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--meta);
+      font-size: 14px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    #back-top:hover { border-color: var(--spark); color: var(--spark); }
+    #back-top.visible { display: flex; }
+
+    /* ─── Copied toast ─── */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--spark);
+      color: var(--void);
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0.6rem 1.5rem;
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#presentation">Présentation</a></li>
-            <li><a href="#competences">Compétences</a></li>
-            <li><a href="#projet">Projet</a></li>
-            <li><a href="#formations">Formations</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="https://drive.google.com/file/d/1n0JMO5r2LRAct5BwH7x00roho9Qxq9U3/view?usp=sharing">CV</a></li>
-        </ul>
-    </nav>
 
-    <section id="presentation">
-        <h2>Présentation</h2>
-            <p>Je m'appelle Antoine Gaienier, j'ai 19 ans originaire de la région Centre.
-                Actuellement en BUT 2 Informatique à l'IUT de Villeneuve d'Ascq.
-                Je me suis orienté vers cette formation car j'ai toujours été attiré
-                par l'informatique et les nouvelles technologies. Au lycée j'ai eu l'occasion 
-                de commencer à m'orienter vers ce domaine en choisissant la spécialité NSI 
-                (Numérique et Sciences Informatiques). J'ai donc décidé de continuer dans 
-                cette voie en m'inscrivant en BUT Informatique.
-            </p>
-    </section>
+<!-- NAV -->
+<nav id="navbar">
+  <span class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">AG_</span>
+  <ul class="nav-links">
+    <li><button onclick="scrollTo('#presentation')">Présentation</button></li>
+    <li><button onclick="scrollTo('#competences')">Compétences</button></li>
+    <li><button onclick="scrollTo('#savoir-etre')">Savoir-être</button></li>
+    <li><button onclick="scrollTo('#projets')">Projets</button></li>
+    <li><button onclick="scrollTo('#formations')">Formations</button></li>
+    <li><button onclick="scrollTo('#contact')">Contact</button></li>
+    <li><a href="https://drive.google.com/file/d/1n0JMO5r2LRAct5BwH7x00roho9Qxq9U3/view?usp=sharing" target="_blank" class="nav-cv">CV</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-    <section id="competences">
-        <h2>Compétences</h2>
-    
-        <div class="content-container">
-            <div class="image-grid">
-                <div class="image-container">
-                    <img src="image/logohtml-css.jpg" alt="html/css">
-                </div>
-    
-                <div class="image-container">
-                    <img src="image/logojava.png" alt="java">
-                </div>
-    
-                <div class="image-container">
-                    <img src="image/logoc.jpg" alt="c">
-                </div>
-                <div class="image-container">
-                    <img src="image/logopsql.jpg" alt="Postgresql">
-                </div>
-                <div class="image-container">
-                    <img src="image/JS.png" alt="Git">
-                </div>
-    
+<div class="mobile-menu" id="mobile-menu">
+  <button onclick="scrollTo('#presentation');toggleMenu()">Présentation</button>
+  <button onclick="scrollTo('#competences');toggleMenu()">Compétences</button>
+  <button onclick="scrollTo('#savoir-etre');toggleMenu()">Savoir-être</button>
+  <button onclick="scrollTo('#projets');toggleMenu()">Projets</button>
+  <button onclick="scrollTo('#formations');toggleMenu()">Formations</button>
+  <button onclick="scrollTo('#contact');toggleMenu()">Contact</button>
+  <a href="https://drive.google.com/file/d/1n0JMO5r2LRAct5BwH7x00roho9Qxq9U3/view?usp=sharing" target="_blank">CV</a>
+</div>
+
+<!-- HERO -->
+<section id="presentation">
+  <div class="hero-grid"></div>
+  <div class="hero-glow" id="hero-glow"></div>
+
+  <div style="position:relative;z-index:1;max-width:1400px;margin:0 auto;width:100%;">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      <span class="mono" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--meta);">
+        Disponible — Étudiant BUT 3 Informatique
+      </span>
+    </div>
+
+    <div class="hero-name" id="hero-first">
+      ANT<span class="accent">OINE</span>
+    </div>
+    <div class="hero-surname" id="hero-last">GAIENIER</div>
+
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        Développeur full-stack passionné par les nouvelles technologies.
+        Originaire de la région Centre, actuellement en BUT Informatique
+        à l'IUT de Villeneuve d'Ascq. Attiré par l'informatique depuis le lycée via la spécialité NSI.
+      </p>
+      <div class="hero-meta">
+        <span>Villeneuve d'Ascq, FR</span>
+        <span class="spark-link">antoine.gaienier@gmail.com</span>
+        <a href="https://www.linkedin.com/in/antoine-gaienier-249b15277/" target="_blank">/in/antoine-gaienier →</a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span class="mono" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--meta);">Scroll</span>
+    </div>
+  </div>
+  <div class="hero-bottom-border"></div>
+</section>
+
+<!-- SKILLS -->
+<section id="competences">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div class="section-header">
+      <div>
+        <p class="label" style="margin-bottom:0.8rem;">02 — Compétences</p>
+        <h2 class="section-title">Stack</h2>
+      </div>
+      <span class="section-count">8 technologies</span>
+    </div>
+
+    <div class="skills-list">
+      <div class="skill-row" data-level="90" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">01</span>
+        <span class="skill-name">HTML / CSS</span>
+        <span class="skill-tag tag-frontend">Frontend</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">90%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="82" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">02</span>
+        <span class="skill-name">JavaScript</span>
+        <span class="skill-tag tag-frontend">Frontend</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">82%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="80" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">03</span>
+        <span class="skill-name">React</span>
+        <span class="skill-tag tag-framework">Framework</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">80%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="78" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">04</span>
+        <span class="skill-name">Java</span>
+        <span class="skill-tag tag-backend">Backend</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">78%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="75" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">05</span>
+        <span class="skill-name">Spring Boot</span>
+        <span class="skill-tag tag-framework">Framework</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">75%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="70" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">06</span>
+        <span class="skill-name">Langage C</span>
+        <span class="skill-tag tag-systeme">Système</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">70%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="75" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">07</span>
+        <span class="skill-name">PostgreSQL</span>
+        <span class="skill-tag tag-db">Base de données</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">75%</span>
+        </div>
+      </div>
+      <div class="skill-row" data-level="65" onmouseenter="animateBar(this)" onmouseleave="resetBar(this)">
+        <span class="skill-num">08</span>
+        <span class="skill-name">MongoDB</span>
+        <span class="skill-tag tag-db">Base de données</span>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:20%"></div></div>
+          <span class="skill-pct">65%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOFT SKILLS -->
+<section id="savoir-etre">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div style="margin-bottom:4rem;">
+      <p class="label" style="margin-bottom:0.8rem;">03 — Savoir-être</p>
+      <h2 class="section-title">Qualités</h2>
+    </div>
+    <div class="soft-grid">
+      <div class="soft-card">
+        <div class="soft-icon">◈</div>
+        <h3>Autonomie</h3>
+        <p>Prise d'initiatives, capacité à travailler en solo, à trouver des solutions de manière indépendante.</p>
+      </div>
+      <div class="soft-card">
+        <div class="soft-icon">◉</div>
+        <h3>Travail en équipe</h3>
+        <p>Écoute active, adaptabilité aux autres, coordination sur des projets de groupe (Agile, sprints).</p>
+      </div>
+      <div class="soft-card">
+        <div class="soft-icon">◫</div>
+        <h3>Organisation</h3>
+        <p>Gestion du temps, des tâches et des priorités grâce à des outils de gestion de projet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projets">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div class="section-header">
+      <div>
+        <p class="label" style="margin-bottom:0.8rem;">04 — Projets</p>
+        <h2 class="section-title">Archive</h2>
+      </div>
+      <span class="section-count">6 projets réalisés</span>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-num">01 / 2023</span>
+        <h3 class="project-title">Projet Agile</h3>
+        <p class="project-subtitle">Jeu de combat en donjon</p>
+        <p class="project-desc">Jeu sur terminal en Java développé avec la méthode Agile (10 sprints de 2h). Combat tour par tour dans un donjon, groupe de 4 personnes.</p>
+        <div class="project-stack">
+          <span class="tech-badge">Java</span>
+          <span class="tech-badge">Agile</span>
+          <span class="tech-badge">Git</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/2023-projet-agile-de-rentree/groupe-10" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-num">02 / 2023</span>
+        <h3 class="project-title">Chasse aux Monstres</h3>
+        <p class="project-subtitle">Ludiciel JvJ & IA</p>
+        <p class="project-desc">Ludiciel développé en équipe de 4. JvJ ou IA contre IA. Architecture orientée objet avancée.</p>
+        <div class="project-stack">
+          <span class="tech-badge">Java</span>
+          <span class="tech-badge">IA</span>
+          <span class="tech-badge">OOP</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/chasse_au_monsttre" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-num">03 / 2023</span>
+        <h3 class="project-title">Matrix Synapse</h3>
+        <p class="project-subtitle">Communication sécurisée</p>
+        <p class="project-desc">Déploiement d'une solution Matrix Synapse sur VMs pour mettre en place un système de communication sécurisé.</p>
+        <div class="project-stack">
+          <span class="tech-badge">Linux</span>
+          <span class="tech-badge">Docker</span>
+          <span class="tech-badge">Matrix</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/deploiment_appli" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-num">04 / 2024</span>
+        <h3 class="project-title">REST API Pizzaland</h3>
+        <p class="project-subtitle">API REST complète</p>
+        <p class="project-desc">API REST pour un service de livraison de pizza. CRUD complet avec GET, POST, PUT, PATCH, DELETE + PostgreSQL.</p>
+        <div class="project-stack">
+          <span class="tech-badge">Java</span>
+          <span class="tech-badge">REST</span>
+          <span class="tech-badge">PostgreSQL</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/sae_rest_api" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-num">05 / 2024</span>
+        <h3 class="project-title">Heaven Must Fall</h3>
+        <p class="project-subtitle">Shoot'em up multijoueur</p>
+        <p class="project-desc">Jeu shoot'em up JavaScript + Node.js. Solo ou multijoueur en ligne. Gestion temps-réel des entités et collisions.</p>
+        <div class="project-stack">
+          <span class="tech-badge">JavaScript</span>
+          <span class="tech-badge">Node.js</span>
+          <span class="tech-badge">WebSocket</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/raphael.kiecken.etu/sae-2024-groupeg-kiecken-desmee-gaienier" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <span class="project-num">06 / 2024</span>
+        <h3 class="project-title">Doctolibre</h3>
+        <p class="project-subtitle">Application médicale</p>
+        <p class="project-desc">App web de gestion de rendez-vous médicaux. Spring Boot + Spring Security + OAuth2. Base H2 embarquée.</p>
+        <div class="project-stack">
+          <span class="tech-badge">Java</span>
+          <span class="tech-badge">Spring Boot</span>
+          <span class="tech-badge">H2</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-status"><span class="status-dot"></span>Terminé</span>
+          <a href="https://gitlab.univ-lille.fr/charles.coude.etu/doctolib" target="_blank" class="project-link">GitLab →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATIONS -->
+<section id="formations">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div style="margin-bottom:4rem;">
+      <p class="label" style="margin-bottom:0.8rem;">05 — Formations</p>
+      <h2 class="section-title">Parcours</h2>
+    </div>
+    <div class="formations-grid">
+      <div>
+        <div class="sub-label">Diplômes</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
             </div>
+            <div class="timeline-content">
+              <span class="timeline-year">2022 — Aujourd'hui</span>
+              <div class="timeline-title">BUT Informatique</div>
+              <span class="timeline-org">IUT de Villeneuve d'Ascq</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot"></div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-year">2022</span>
+              <div class="timeline-title">Permis B</div>
+              <span class="timeline-org">—</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot-wrap">
+              <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-content">
+              <span class="timeline-year">2020 — 2022</span>
+              <div class="timeline-title">Baccalauréat Général</div>
+              <span class="timeline-org">Option NSI &amp; Mathématiques</span>
+            </div>
+          </div>
         </div>
-    </section>
-    
-    
+      </div>
 
-    <section id="projet">
-        <h2>Projet</h2>
+      <div>
+        <div class="sub-label">Expérience professionnelle</div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div>
+              <span class="exp-date">Avril 2024 — Juin 2024</span>
+              <div class="exp-role">Développeur Web</div>
+              <div class="exp-company">ENEDIS LAB — Pays de la Loire</div>
+            </div>
+            <span class="exp-badge">Stage 12 semaines</span>
+          </div>
+          <ul class="exp-list">
+            <li>App web de gestion d'étiquettes compteurs électriques (Vue 3 + TypeScript)</li>
+            <li>Maintenance d'applications web existantes en PHP Symfony</li>
+            <li>Travail en équipe, gestion de projet, communication client</li>
+            <li>Écoute des besoins utilisateurs et traduction en fonctionnalités</li>
+          </ul>
+          <div class="exp-stack">
+            <span class="tech-badge">Vue 3</span>
+            <span class="tech-badge">TypeScript</span>
+            <span class="tech-badge">PHP</span>
+            <span class="tech-badge">Symfony</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section id="projet1">
-            <h3>Projet Agile</h3>
-            <p>Le projet agile consiste à créer un jeu sur terminal en Java, en utilisant la méthode agile à petite échelle sur 10 sprints de 2h. 
-            Par groupe de 4 nous avons donc créé un jeu de combat en tour par tour dans un donjon où l'on doit traverser 
-            les salles en combattant les monstres qui s'y trouvent.
-            </p>
+<!-- CONTACT -->
+<section id="contact">
+  <div style="max-width:1400px;margin:0 auto;">
+    <div style="margin-bottom:4rem;">
+      <p class="label" style="margin-bottom:0.8rem;">06 — Contact</p>
+      <h2 class="section-title">Parlons-en</h2>
+      <p style="color:var(--meta);max-width:480px;margin-top:1.5rem;font-size:15px;line-height:1.7;">
+        Je suis disponible pour des opportunités de stage, alternance ou projets freelance.
+        N'hésite pas à me contacter.
+      </p>
+    </div>
 
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item" onclick="copyEmail()">
+          <div>
+            <span class="contact-item-label">Email</span>
+            <span class="contact-item-value">antoine.gaienier@gmail.com</span>
+          </div>
+          <span class="contact-arrow" id="copy-arrow">Copier →</span>
+        </div>
+        <div class="contact-item">
+          <div>
+            <span class="contact-item-label">Téléphone</span>
+            <span class="contact-item-value">06 44 99 41 95</span>
+          </div>
+        </div>
+        <a href="https://www.linkedin.com/in/antoine-gaienier-249b15277/" target="_blank" style="display:block;text-decoration:none;">
+          <div class="contact-item">
+            <div>
+              <span class="contact-item-label">LinkedIn</span>
+              <span class="contact-item-value">/in/antoine-gaienier</span>
+            </div>
+            <span class="contact-arrow">Voir →</span>
+          </div>
+        </a>
+        <a href="https://drive.google.com/file/d/1n0JMO5r2LRAct5BwH7x00roho9Qxq9U3/view?usp=sharing" target="_blank" class="cv-btn">
+          Télécharger mon CV →
+        </a>
+      </div>
 
-            <p class="p-click1"> Statut : Fini </p>
-            <a href="https://gitlab.univ-lille.fr/2023-projet-agile-de-rentree/groupe-10" class="p-click1"> Lien Git </a>
-
-        </section>
-
-        <section id="projet2">
-            <h3> Projet Chasse aux Monstres</h3>
-            <p>Le projet "Chasse aux Monstres" consiste à développer un ludiciel en équipe de 4 personnes. 
-                Le jeu peut se jouer joueur contre joueur ou IA contre IA. 
-            </p>
-
-            <p class="p-click2"> Statut : Fini </p>
-            <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/chasse_au_monsttre" class="p-click2"> Lien Git </a>
-        </section>
-
-        <section id="projet3">
-            <h3>Projet Déploiement d'une application </h3>
-
-            <p>Le projet "Déploiement d'une application" consiste à déployer une solution basée sur Matrix Synapse. Sur des machines virtuelles, 
-                pour mettre en place un système de communication sécurisé.
-            </p>
-
-            <p class="p-click3"> Statut : Fini </p>
-            <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/deploiment_appli" class="p-click3"> Lien Git </a>
-            
-        </section>
-        
-        <section id="projet4">
-           
-            <h3> REST API Pizzaland </h3>
-
-            <p>Le projet "REST API Pizzaland" consiste à créer une API REST pour un service de livraison de pizza. 
-                L'API doit permettre de gérer les commandes, les pizzas et les ingrédients du pizzeria. L'API fait appel à une base de données PostgreSQL pour stocker les données et permet de réaliser des opérations de type GET, POST, PUT, PATCH et DELETE. 
-            </p>
-
-            
-                <p class="p-click4"> Statut : Fini </p>
-                <a href="https://gitlab.univ-lille.fr/antoine.gaienier.etu/sae_rest_api" class="p-click4"> Lien Git </a>
-           
-        </section>
-
-        <section id="projet5">
-            <h3>Projet Heaven Must Fall</h3>
-
-            <p> Le projet "Heaven Must Fall" consiste à créer un jeu de type shoot'em up en JavaScript basé sur un serveur Node.js. 
-                Heaven Must Fall est un jeu en ligne qui permet de jouer en solo ou en multijoueur. 
-            </p>
-
-            <p class="p-click5"> Statut : Fini </p>
-
-            <a href="https://gitlab.univ-lille.fr/raphael.kiecken.etu/sae-2024-groupeg-kiecken-desmee-gaienier" class="p-click5"> Lien Git </a>
-        </section>
-    
-       
-    </section>
-
-    <section id="formations">
-        <h2>Formations</h2>
+      <div class="clock-card">
+        <div class="clock-location">
+          <span class="pulse-dot"></span>
+          <span class="mono" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--meta);">
+            Villeneuve d'Ascq, France
+          </span>
+        </div>
         <div>
-            <p>2022 - Aujourd'hui : BUT Informatique</p>
-            <p>2022 : Permis B </p>
-            <p>2020 - 2022 : Baccalauréat Général option NSI, Maths</p>
+          <div class="clock-time" id="clock">--:--:--</div>
+          <p class="clock-tz">Heure locale — CET/CEST</p>
         </div>
+      </div>
+    </div>
 
-    </section>
+    <div class="footer">
+      <span>© 2026 Antoine Gaienier — Tous droits réservés</span>
+      <span>Construit avec HTML &amp; CSS</span>
+    </div>
+  </div>
+</section>
 
-    <section id="contact">
-        <h2>Contact</h2>
+<!-- HUD -->
+<div id="hud">
+  <div id="hud-line"><div id="hud-fill"></div></div>
+  <span id="hud-pct">0%</span>
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
+</div>
 
-        <div>
-            <p>Mail : antoine.gaienier@gmail.com</p>
-            <p>Téléphone : 06 44 99 41 95</p>
-            <p> <a href="https://www.linkedin.com/in/antoine-gaienier-249b15277/" >Linkedin</a></p>
-        </div>
-    </section>
+<!-- Toast -->
+<div id="toast">Email copié ✓</div>
 
-    
+<script>
+  // Smooth scroll helper
+  function scrollTo(selector) {
+    const el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  // Hero parallax
+  const heroFirst = document.getElementById('hero-first');
+  const heroLast  = document.getElementById('hero-last');
+  const heroGlow  = document.getElementById('hero-glow');
+  const heroSec   = document.getElementById('presentation');
+  window.addEventListener('mousemove', (e) => {
+    const rect = heroSec.getBoundingClientRect();
+    if (rect.bottom < 0) return;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
+    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * 15;
+    heroFirst.style.transform = `translateX(${-x * 0.4}px)`;
+    heroLast.style.transform  = `translateX(${x * 0.4}px)`;
+    heroGlow.style.transform  = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+  });
+
+  // Skill bar animation
+  function animateBar(row) {
+    const level = row.dataset.level;
+    row.querySelector('.skill-bar-fill').style.width = level + '%';
+  }
+  function resetBar(row) {
+    row.querySelector('.skill-bar-fill').style.width = '20%';
+  }
+
+  // HUD scroll progress
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.round((window.scrollY / total) * 100) : 0;
+    document.getElementById('hud-fill').style.height = pct + '%';
+    document.getElementById('hud-pct').textContent = pct + '%';
+    const btn = document.getElementById('back-top');
+    btn.classList.toggle('visible', pct > 10);
+  });
+
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    const t = now.toLocaleTimeString('fr-FR', {
+      timeZone: 'Europe/Paris',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    document.getElementById('clock').textContent = t;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Copy email
+  function copyEmail() {
+    navigator.clipboard.writeText('antoine.gaienier@gmail.com').then(() => {
+      document.getElementById('copy-arrow').textContent = 'Copié ✓';
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        document.getElementById('copy-arrow').textContent = 'Copier →';
+      }, 2000);
+    });
+  }
+</script>
 </body>
 </html>
